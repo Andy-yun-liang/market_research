@@ -5,7 +5,7 @@ This project is designed to scrape eCommerce business data from various stores i
 
 ## Features
 - Reads eCommerce business URLs from an **open data portal CSV**.
-- Scrapes **Shopify store data** via `/products.json` API.
+- Scrapes **Shopify store data** 
 - Stores structured product data into an **SQLite database**.
 - Handles errors and logs failed requests.
 
