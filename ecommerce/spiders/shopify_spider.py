@@ -16,14 +16,14 @@ class ShopifySpider(scrapy.Spider):
             for row in reader:
                 if not row or not row[0].strip():
                     self.log("Skipping empty row", level=logging.WARNING)
-                    continue  # Skip empty rows
+                    continue  
 
                 url = row[0].strip()  
                 parsed_url = urlparse(url)
 
                 
                 if not parsed_url.netloc or "." not in parsed_url.netloc:
-                    self.log(f"Invalid URL: {url}", level=logging.ERROR)
+                    self.log(f"Invalid url: {url}", level=logging.ERROR)
                     continue  
 
                
@@ -60,16 +60,16 @@ class ShopifySpider(scrapy.Spider):
 
             
             if "products" in data and len(data["products"]) > 0:
-                if "next_page_info" in data:  #dealing with shitty cursor based pagination
+                if "next_page_info" in data:  #dealing with next_page_info pagination
                     next_page_info = data["next_page_info"]
                     next_url = response.urljoin(f"?page_info={next_page_info}")
-                    self.log(f"Fetching next page using cursor: {next_page_info}", level=logging.INFO)
+                    self.log(f"Fetching next page using next_page_info: {next_page_info}", level=logging.INFO)
                     yield scrapy.Request(
                         url=next_url,
                         callback=self.parse,
                         meta={'shop_name': shop_name, 'shop_url': shop_url, 'page_number': page_number + 1}
                     )
-                else:  # page based pagination
+                else:  # normal page pagination
                     next_page = page_number + 1
                     next_url = response.urljoin(f"?page={next_page}")
                     self.log(f"Fetching next page: {next_page}", level=logging.INFO)
