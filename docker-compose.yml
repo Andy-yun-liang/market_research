@@ -1,0 +1,27 @@
+# Define the version of Docker Compose syntax we're using
+version: "3.8"
+
+services:
+  # This is the name of the service (you can call it whatever you want)
+  scrapy:
+    # Tells Docker Compose to build the Docker image using the Dockerfile in the current directory (.)
+    build: .
+    
+    # Volumes are used to sync files between the local machine and the container
+    # This maps your current local directory (.) to the /app directory inside the container
+    volumes:
+      - .:/app
+    
+    # Set the working directory inside the container
+    # This ensures that any commands you run inside the container start from the /app directory
+    working_dir: /app
+    
+    # These two options allow you to run the container in interactive mode
+    # stdin_open: true keeps input open
+    # tty: true allocates a terminal to interact with the container
+    stdin_open: true
+    tty: true
+    
+    # The 'command' option specifies the command to run when the container starts
+    # Since we're in development mode, this is commented out, and we'll run things manually
+    # command: ["scrapy", "crawl", "your_spider_name"]
